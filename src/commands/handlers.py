@@ -1,9 +1,7 @@
-# from .single_asset_analysis import SingleAssetAnalysis
-# from .assets_group_analysis import AssetGroupAnalysis
+
 from .analysis_commands_factory import AnalysisCommandFactory
 from configs.bot import bot
 from commands.texts import start_message, help_message
-from pprint import pprint
 
 
 @bot.message_handler(commands=['start'])
@@ -21,5 +19,3 @@ def help_command(message):
 def analysis(message):
     command = AnalysisCommandFactory.create_command(bot=bot, message=message)
     command.proccese()
-    # asset = SingleAssetAnalysis(bot, message)
-    # asset.get_asset_data()

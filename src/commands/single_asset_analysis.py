@@ -98,9 +98,15 @@ class SingleAssetAnalysis(Command):
         alpha = single_asset.calc_alpha()
         mean_return = single_asset.mean_return()
         std_return = single_asset.std_return()
+        skew = single_asset.calc_skew()
+        kurtosis = single_asset.calc_kurtosis()
         anualized_perf = single_asset.annualized_performence()
-        self.bot.send_message(message.chat.id, single_asset_analitics_text.format(
-            self._user_data["ticker"], self._user_data["start_time"], self._user_data["end_time"], drawdown, sharp, sortino, alpha, beta, anualized_perf[0], anualized_perf[1]))
+
+        analitic_text = single_asset_analitics_text.format(
+            self._user_data["ticker"], self._user_data["start_time"], self._user_data["end_time"], drawdown, sharp, sortino, alpha, beta, skew, kurtosis, anualized_perf[0], anualized_perf[1])
+
+        self.bot.send_message(
+            message.chat.id, text=analitic_text, parse_mode='Markdown')
 
         asset_data = single_asset.get_asset_data()
 
@@ -137,9 +143,8 @@ class SingleAssetAnalysis(Command):
                     os.remove(plot)
         else:
             # If no exceptions were raised during the loop, send the media group
-            print('send media')
             self.bot.send_media_group(
-                self.message.chat.id, media=media_group)  # , caption="Comment for the media group"
+                self.message.chat.id, media=media_group)
         finally:
             # Ensure that all image files are deleted, even if an exception was raised
             for plot in plots_list:

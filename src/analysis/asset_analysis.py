@@ -1,4 +1,4 @@
-import statsmodels.api as sm
+import scipy.stats as stats
 import numpy as np
 import pandas as pd
 from providers.yfinance_provider import YFinanceProvider
@@ -99,32 +99,41 @@ class SingleAssetTechnicalAnalysis:
     def mean_return(self, freq=None):
         """ Calculate Mean Log Returns of an instrument depends on frequency, by default without frequency and add it to instrument statistics Series """
         if freq is None:
-            # return 'Mean Returns {}'.format(round(self._data['log_returns'].mean()*100, 4))
             return round(self._data['log_returns'].mean()*100, 4)
         else:
             resampled_price = self._data['Close'].resample(
                 freq).last()
             resampled_returns = np.log(
                 resampled_price/resampled_price.shift(1))
-            # return 'Mean Returns {} for {} frequency'.format(round(resampled_returns.mean()*100, 4), freq)
             return round(resampled_returns.mean()*100, 4)
 
     def std_return(self, freq: str = None):
         """ Calculate Standart deviation Log Returns of an instrument depends on frequency, by default without frequency and add it to instrument statistics Series"""
         if freq is None:
-            # return 'STD Returns {}'.format(round(self._data['log_returns'].std()*100, 4))
             return round(self._data['log_returns'].std()*100, 4)
         else:
             resampled_price = self._data['Close'].resample(
                 freq).last()
             resampled_returns = np.log(
                 resampled_price/resampled_price.shift(1))
-            # return 'STD Returns {} for {} frequency '.format(round(resampled_returns.std()*100, 4), freq)
             return round(resampled_returns.std()*100, 4)
 
     def annualized_performence(self):
         """ Calculation Of annualized Performence, Return/Risk and add it to instrument statistics Series"""
         mean_return = round(self._data['log_returns'].mean()*252, 3)
         risk = round(self._data['log_returns'].std()*np.sqrt(252), 3)
-        # return 'Return: {}% | Risk: {}%'.format(round(mean_return*100, 3), round(risk*100, 3))
         return (round(risk*100, 3), round(mean_return*100, 3))
+
+    def calc_skew(self):
+        """
+        skewness = 0 : normally distributed.
+        skewness > 0 : more weight in the left tail of the distribution.
+        skewness < 0 : more weight in the right tail of the distribution.
+        """
+        skew = stats.skew(self._data['log_returns'])
+        return round(skew, 4)
+
+    def calc_kurtosis(self):
+        """ It is a measure of how heavy tail is compared to a normal distribution """
+        kurt = stats.kurtosis(self._data['log_returns'])
+        return round(kurt, 4)

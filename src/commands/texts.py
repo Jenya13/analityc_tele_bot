@@ -17,6 +17,8 @@ single_asset_analitics_text = 'Ticker:                                  {}\n' +\
     'Sortino -                                {}\n' +\
     'Alpha (excess return) -       {}%\n' +\
     'Beta (volatility) -                  {}\n' +\
+    'Skew -                                   {}\n' +\
+    'Kurtosis -                               {}\n' +\
     'Risk: {}% | Return: {}%\n'
 
 

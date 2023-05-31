@@ -2,6 +2,7 @@
 import os
 import pandas as pd
 import numpy as np
+import scipy.stats as stats
 import matplotlib.dates as mdates
 from matplotlib.ticker import FuncFormatter
 import matplotlib.ticker as mtick
@@ -11,14 +12,14 @@ from .vizualization import Vizualization
 def calc_drawdown(data):
 
     # We compute Cumsum of the returns
-    csum = data['pct_change'].dropna().cumsum()+1
+    csum = data['log_returns'].dropna().cumsum()+1
 
     # We compute max of the cumsum on the period (accumulate max)(peak)
     running_max = np.maximum.accumulate(csum)
 
     # We compute drawdown
     drawdown = csum/running_max - 1
-    # print(-np.min(self.drawdown))
+
     return drawdown
 
 
@@ -65,7 +66,7 @@ class SingleAssetDataVisualization(Vizualization):
         self.plt.legend(fontsize=13)
         self.plt.xlabel('Date')
         self.plt.ylabel('')
-        plot_type = 'Normalized_plot'
+        plot_type = 'normalized_plot'
         plot_id = self._generate_id()
         plot_name = plot_id + '-' + plot_type + '.png'
         plots_dir = self._plots_path
@@ -157,14 +158,22 @@ class SingleAssetDataVisualization(Vizualization):
             return img_path
 
         elif kind == 'hist':
+
+            mu = self._data['log_returns'].mean()
+            sigma = self._data['log_returns'].std()
+            x = np.linspace(self._data['log_returns'].min(
+            ), self._data['log_returns'].max(), 1000)
+            y = stats.norm.pdf(x, loc=mu, scale=sigma)
+            self.plt.figure(figsize=(20, 8))
+            self.plt.hist(self._data['log_returns'], bins=int(np.sqrt(len(self._data))), density=True, rwidth=0.95,
+                          label='Frequency distribution of returns ({})'.format(self._ticker))
+            self.plt.plot(x, y, linewidth=3, color='red',
+                          label='Normal Distribution')
             self.plt.title(
-                'Frequency Of Returns - {}'.format(self._ticker), fontsize=16)
-            self._data['log_returns'].hist(
-                figsize=(12, 8), bins=int(np.sqrt(len(self._data))), rwidth=0.95)
-            self.plt.gca().xaxis.set_major_formatter(mtick.PercentFormatter(xmax=1))
-            mean = np.mean(self._data['log_returns'])
-            self.plt.axvline(x=mean, color='red', linestyle="--", linewidth=2)
-            self.plt.xlabel('Frequency (%)')
+                'Frequency Distribution Of Returns - {}'.format(self._ticker), fontsize=16)
+            self.plt.xlabel('Returns')
+            self.plt.ylabel('pdf')
+            self.plt.legend()
             plot_type = 'hist_returns_plot'
             plot_id = self._generate_id()
             plot_name = plot_id + '-' + plot_type + '.png'
@@ -173,6 +182,22 @@ class SingleAssetDataVisualization(Vizualization):
             self.plt.savefig(img_path)
             self.plt.close()
             return img_path
+
+            # self._data['log_returns'].hist(
+            #     figsize=(12, 8), bins=int(np.sqrt(len(self._data))), rwidth=0.95)
+            # self.plt.gca().xaxis.set_major_formatter(mtick.PercentFormatter(xmax=1))
+            # mean = np.mean(self._data['log_returns'])
+            # self.plt.axvline(x=mean, color='red', linestyle="--", linewidth=2)
+            # self.plt.xlabel('Returns')
+            # self.plt.ylabel('Frequency')
+            # plot_type = 'hist_returns_plot'
+            # plot_id = self._generate_id()
+            # plot_name = plot_id + '-' + plot_type + '.png'
+            # plots_dir = self._plots_path
+            # img_path = os.path.join(plots_dir, plot_name)
+            # self.plt.savefig(img_path)
+            # self.plt.close()
+            # return img_path
 
     def plot_drawdown(self):
         """
