@@ -15,7 +15,7 @@ def help_command(message):
     bot.send_message(message.chat.id, help_message)
 
 
-@bot.message_handler(commands=['single_asset', 'assets_group'])
+@bot.message_handler(commands=['single_asset', 'assets_group', 'asset_behavior'])
 def analysis(message):
     command = AnalysisCommandFactory.create_command(bot=bot, message=message)
     command.proccese()

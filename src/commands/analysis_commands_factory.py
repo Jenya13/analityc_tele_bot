@@ -1,5 +1,6 @@
 from .single_asset_analysis import SingleAssetAnalysis
 from .assets_group_analysis import AssetGroupAnalysis
+from .assets_behavior_analysis import AssetBehaviorAnalysis
 
 
 class AnalysisCommandFactory:
@@ -9,7 +10,7 @@ class AnalysisCommandFactory:
             return SingleAssetAnalysis(bot, message)
         elif message.text == '/assets_group':
             return AssetGroupAnalysis(bot, message)
-        # elif message.text == '/portfolio':
-        #     return PortfolioAnalysis(bot, message)
+        elif message.text == '/asset_behavior':
+            return AssetBehaviorAnalysis(bot, message)
         else:
             return None

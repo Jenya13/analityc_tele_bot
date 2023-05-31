@@ -9,6 +9,7 @@ from .texts import single_asset_analitics_text, single_asset_returns_text
 
 
 class SingleAssetAnalysis(Command):
+
     def __init__(self, bot, message):
         super().__init__(bot, message)
         self._user_data = {"ticker": "", "start_time": "", "end_time": ""}
