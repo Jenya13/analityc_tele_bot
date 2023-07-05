@@ -18,4 +18,4 @@ def help_command(message):
 @bot.message_handler(commands=['single_asset', 'assets_group', 'asset_behavior'])
 def analysis(message):
     command = AnalysisCommandFactory.create_command(bot=bot, message=message)
-    command.proccese()
+    command.process()

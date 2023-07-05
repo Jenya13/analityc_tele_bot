@@ -12,5 +12,6 @@ class AnalysisCommandFactory:
             return AssetGroupAnalysis(bot, message)
         elif message.text == '/asset_behavior':
             return AssetBehaviorAnalysis(bot, message)
+
         else:
             return None

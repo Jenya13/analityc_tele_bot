@@ -3,9 +3,9 @@ start_message = 'Hi! {}\n' +\
     'Use /help command to review his functionality'
 
 
-help_message = '/single_asset Analyzes a single asset and outputs its statistics\n' +\
-    '/assets_group Analyzes a group of assets and outputs their statistics\n' +\
-    '/behavior Analyzes a single asset trading behavior'
+help_message = '/single_asset - Analyzes a single asset and outputs its statistics\n' +\
+    '/assets_group - Analyzes a group of assets and outputs their statistics\n' +\
+    '/asset_behavior - Analyzes a single asset trading behavior'
 
 
 single_asset_analitics_text = 'Ticker:                                  {}\n' +\

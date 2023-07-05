@@ -14,7 +14,7 @@ class SingleAssetAnalysis(Command):
         super().__init__(bot, message)
         self._user_data = {"ticker": "", "start_time": "", "end_time": ""}
 
-    def proccese(self):
+    def process(self):
         self._single_asset(self.message)
 
     @Command.stop_command
