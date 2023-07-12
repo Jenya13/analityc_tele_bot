@@ -15,9 +15,8 @@ class AssetGroupAnalysis(Command):
         self._user_data = {"ticker": [], "start_time": "", "end_time": ""}
         self._data = pd.DataFrame()
 
-    def proccese(self):
-        # self._assets_group(self.message)
-        self.test(self.message)
+    def process(self):
+        self._assets_group(self.message)
 
     @Command.stop_command
     def _assets_group(self, message):
@@ -89,11 +88,6 @@ class AssetGroupAnalysis(Command):
             self._perform_analytical_analysis(self.message)
 
     def _perform_analytical_analysis(self, message):
-        print('analytical analysis')
-
-    def test(self, message):
-        self._user_data = {"tickers": ['AAPL', 'JPM', 'GC=F', 'MA'
-                                       ], "start_time": "2019-03-01", "end_time": "2022-03-01"}
         sp500_ticker = '^GSPC'
         if sp500_ticker not in self._user_data["tickers"]:
             self._user_data["tickers"].append(sp500_ticker)

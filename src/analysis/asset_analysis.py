@@ -134,6 +134,11 @@ class SingleAssetTechnicalAnalysis:
         return round(skew, 4)
 
     def calc_kurtosis(self):
-        """ It is a measure of how heavy tail is compared to a normal distribution """
+        """ It is a measure of how heavy tail is compared to a normal distribution 
+            * If the kurtosis value is positive, it indicates a distribution with heavier tails and a more peaked shape compared to a normal distribution. This is referred to as leptokurtic.
+            *If the kurtosis value is negative, it indicates a distribution with lighter tails and a flatter shape compared to a normal distribution. This is referred to as platykurtic.
+            *If the kurtosis value is close to zero, it suggests that the distribution has a similar shape to a normal distribution.
+            ure of kurtosis relative to a normal distribution, so a normal distribution will have an excess kurtosis of 0.
+        """
         kurt = stats.kurtosis(self._data['log_returns'])
         return round(kurt, 4)
