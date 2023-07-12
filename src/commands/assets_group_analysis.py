@@ -88,7 +88,6 @@ class AssetGroupAnalysis(Command):
             self._perform_analytical_analysis(self.message)
 
     def _perform_analytical_analysis(self, message):
-
         sp500_ticker = '^GSPC'
         if sp500_ticker not in self._user_data["tickers"]:
             self._user_data["tickers"].append(sp500_ticker)

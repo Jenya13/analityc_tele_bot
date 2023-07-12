@@ -183,22 +183,6 @@ class SingleAssetDataVisualization(Vizualization):
             self.plt.close()
             return img_path
 
-            # self._data['log_returns'].hist(
-            #     figsize=(12, 8), bins=int(np.sqrt(len(self._data))), rwidth=0.95)
-            # self.plt.gca().xaxis.set_major_formatter(mtick.PercentFormatter(xmax=1))
-            # mean = np.mean(self._data['log_returns'])
-            # self.plt.axvline(x=mean, color='red', linestyle="--", linewidth=2)
-            # self.plt.xlabel('Returns')
-            # self.plt.ylabel('Frequency')
-            # plot_type = 'hist_returns_plot'
-            # plot_id = self._generate_id()
-            # plot_name = plot_id + '-' + plot_type + '.png'
-            # plots_dir = self._plots_path
-            # img_path = os.path.join(plots_dir, plot_name)
-            # self.plt.savefig(img_path)
-            # self.plt.close()
-            # return img_path
-
     def plot_drawdown(self):
         """
         Create an image of instrument drawdown chart

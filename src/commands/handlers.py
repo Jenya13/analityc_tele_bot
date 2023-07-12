@@ -1,7 +1,8 @@
 
-from .analysis_commands_factory import AnalysisCommandFactory
+
 from configs.bot import bot
-from commands.texts import start_message, help_message
+from .analysis_commands_factory import AnalysisCommandFactory
+from commands.texts import start_message, help_message, terms_message
 
 
 @bot.message_handler(commands=['start'])
@@ -13,6 +14,11 @@ def start_command(message):
 @bot.message_handler(commands=['help'])
 def help_command(message):
     bot.send_message(message.chat.id, help_message)
+
+
+@bot.message_handler(commands=['terms'])
+def help_command(message):
+    bot.send_message(message.chat.id, terms_message, parse_mode="HTML")
 
 
 @bot.message_handler(commands=['single_asset', 'assets_group', 'asset_behavior'])

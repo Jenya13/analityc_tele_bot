@@ -1,6 +1,7 @@
 import os
 import yfinance as yf
 import telebot
+import pandas as pd
 from providers.yfinance_provider import YFinanceProvider
 from analysis.asset_analysis import SingleAssetTechnicalAnalysis
 from analysis.single_asset_visualization import SingleAssetDataVisualization
@@ -83,10 +84,10 @@ class SingleAssetAnalysis(Command):
     def _perform_analytical_analysis(self, message):
 
         provider = YFinanceProvider()
-        data = provider.get_symbol_history(
+        data: pd.DataFrame = provider.get_symbol_history(
             self._user_data["ticker"], self._user_data["start_time"], self._user_data["end_time"])
 
-        benchmark = provider.get_symbol_history(
+        benchmark: pd.DataFrame = provider.get_symbol_history(
             '^GSPC', self._user_data["start_time"], self._user_data["end_time"])
 
         single_asset = SingleAssetTechnicalAnalysis(
